@@ -3,7 +3,7 @@
 
 #include "menu.h"
 
-extern struct ItemNumberModel testNumberModal1;
+extern struct ItemNumberModel MotorVelocity;
 
 
 #endif

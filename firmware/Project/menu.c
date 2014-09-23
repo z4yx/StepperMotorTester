@@ -5,71 +5,8 @@
 #include "keyboard.h"
 #include "hardware_conf.h"
 #include "rotary_encoder.h"
-#include "params.h"
 
-#define ITEM_ARRAY_SIZE(x) (sizeof(x)/sizeof(struct MenuItem))
-
-void ItemClickTest1(struct MenuItem* item)
-{
-    LOG_DBG("called");
-    item->str = "called";
-}
-
-static struct MenuItem sub_menu_1_item[] =
-{
-    {
-        .str = "hello",
-        .type= ItemNormal,
-    },
-    {
-        .str = "world",
-        .type= ItemClickable,
-        .param.clicked = ItemClickTest1,
-    },
-};
-
-static struct Menu sub_menu_1 = {.size = ITEM_ARRAY_SIZE(sub_menu_1_item), .items = sub_menu_1_item};
-
-static struct MenuItem main_menu_item[] =
-{
-    {
-        .str = "abc",
-        .type= ItemNormal,
-    },
-    {
-        .str = "Dial: [%d]",
-        .type= ItemSelectNumber,
-        .param.number = &testNumberModal1,
-    },
-    {
-        .str = "ghi",
-        .type= ItemNormal,
-    },
-    {
-        .str = "hehe",
-        .type= ItemNormal,
-    },
-    {
-        .str = "uuu",
-        .type= ItemNormal,
-    },
-    {
-        .str = "Sub Menu",
-        .type= ItemSubEntry,
-        .param.next= &sub_menu_1,
-    },
-    {
-        .str = "xxx",
-        .type= ItemNormal,
-    },
-    {
-        .str = "z",
-        .type= ItemNormal,
-    },
-};
-
-static struct Menu main_menu = {.size = ITEM_ARRAY_SIZE(main_menu_item), .items = main_menu_item};
-
+extern struct Menu main_menu;
 static struct Menu* menu_stack[MAX_MENU_DEPTH];
 static int cursor_stack[MAX_MENU_DEPTH];
 static int current_level, current_top;
@@ -90,6 +27,7 @@ static void format_item_str(char* buf, struct MenuItem* item, bool isActive)
         snprintf(buf+1, DISPLAY_CHARS, item->str, item->param.number->val);
     }
     else if(item->type == ItemSubEntry){
+        LOG_DBG("title: %d %d %d %d", item->str[0], item->str[1], item->str[2], item->str[3]);
         snprintf(buf+1, DISPLAY_CHARS, "%-14s%c", item->str, item->type == ItemSubEntry ? '>' : ' ');
         if(buf[DISPLAY_CHARS-2] & 0x80){
             //avoid half Chinese character
