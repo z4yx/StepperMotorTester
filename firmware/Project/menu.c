@@ -9,6 +9,12 @@
 
 #define ITEM_ARRAY_SIZE(x) (sizeof(x)/sizeof(struct MenuItem))
 
+void ItemClickTest1(struct MenuItem* item)
+{
+    LOG_DBG("called");
+    item->str = "called";
+}
+
 static struct MenuItem sub_menu_1_item[] =
 {
     {
@@ -17,7 +23,8 @@ static struct MenuItem sub_menu_1_item[] =
     },
     {
         .str = "world",
-        .type= ItemNormal,
+        .type= ItemClickable,
+        .param.clicked = ItemClickTest1,
     },
 };
 
@@ -161,6 +168,11 @@ void KeyBoard_EventHandler(uint8_t key, uint8_t type)
         case KEY_DOWN:
             if(cursor_stack[current_level] < menu_stack[current_level]->size - 1)
                 cursor_stack[current_level]++;
+            break;
+        case KEY_CENTER:
+            if(item->type == ItemClickable){
+                item->param.clicked(item);
+            }
             break;
         }
         dispMenu();
