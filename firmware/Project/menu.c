@@ -1,9 +1,11 @@
 #include "common.h"
 #include "menu.h"
 #include "display.h"
+#include "dial.h"
 #include "keyboard.h"
 #include "hardware_conf.h"
 #include "rotary_encoder.h"
+#include "params.h"
 
 #define ITEM_ARRAY_SIZE(x) (sizeof(x)/sizeof(struct MenuItem))
 
@@ -28,8 +30,9 @@ static struct MenuItem main_menu_item[] =
         .type= ItemNormal,
     },
     {
-        .str = "def",
-        .type= ItemNormal,
+        .str = "Dial: [%d]",
+        .type= ItemSelectNumber,
+        .param.number = &testNumberModal1,
     },
     {
         .str = "ghi",
@@ -44,7 +47,7 @@ static struct MenuItem main_menu_item[] =
         .type= ItemNormal,
     },
     {
-        .str = "www",
+        .str = "Sub Menu",
         .type= ItemSubEntry,
         .param.next= &sub_menu_1,
     },
@@ -75,19 +78,20 @@ static void calc_menu_top(void)
 
 static void format_item_str(char* buf, struct MenuItem* item, bool isActive)
 {
-    int i;
     buf[0] = isActive ? '>' : ' ';
-    for(i=1; i<DISPLAY_CHARS-1; i++){
-        if(!item->str[i-1])
-            break;
-        buf[i] = item->str[i-1];
+    if(item->type == ItemSelectNumber){
+        snprintf(buf+1, DISPLAY_CHARS, item->str, item->param.number->val);
     }
-    while(i<DISPLAY_CHARS-1){
-        buf[i] = ' ';
-        i++;
+    else if(item->type == ItemSubEntry){
+        snprintf(buf+1, DISPLAY_CHARS, "%-14s%c", item->str, item->type == ItemSubEntry ? '>' : ' ');
+        if(buf[DISPLAY_CHARS-2] & 0x80){
+            //avoid half Chinese character
+            buf[DISPLAY_CHARS-2] = ' ';
+        }
     }
-    buf[DISPLAY_CHARS-1] = item->type == ItemSubEntry ? '>' : ' ';
-    buf[DISPLAY_CHARS] = 0;
+    else{
+        strncpy(buf+1, item->str, DISPLAY_CHARS-1);
+    }
 }
 
 static void dispMenu(void)
@@ -166,13 +170,23 @@ void KeyBoard_EventHandler(uint8_t key, uint8_t type)
     }
 }
 
+void Dial_EventHandler(uint8_t event)
+{
+    struct MenuItem *item = get_current_active();
+    if(item->type == ItemSelectNumber){
+        struct ItemNumberModel *num = item->param.number;
+        if(event == DIAL_EVENT_UP && num->val < num->max){
+            num->val++;
+        }
+        if(event == DIAL_EVENT_DOWN && num->val > num->min){
+            num->val--;
+        }
+        LOG_DBG("Value: %d", num->val);
+    }
+
+}
 
 void Menu_Task(void)
 {
-    // char buf[32];
-    // uint16_t cnt = RotaryEnc_GetCounter(DIAL_TIM);
-    // sprintf(buf, "Rotary: %02d", cnt);
-    // Display_WriteLine(3,buf);
-    // LOG_DBG("%s", buf);
-    // Delay_ms(500);
+    dispMenu();
 }

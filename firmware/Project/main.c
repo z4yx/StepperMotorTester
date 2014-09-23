@@ -24,7 +24,7 @@
 #include "systick.h"
 #include "12864.h"
 #include "display.h"
-#include "rotary_encoder.h"
+#include "dial.h"
 #include "hardware_conf.h"
 #include "keyboard.h"
 
@@ -63,9 +63,8 @@ int main(void)
     Lcd_Init();
     Display_Init();
     Menu_Init();
-    RotaryEnc_Config(DIAL_TIM, DIAL_PORT, DIAL_PINS, 40);
-    RotaryEnc_ClearCounter(DIAL_TIM);
     KeyBoard_Init();
+    Dial_Init();
 
     LOG_INFO("System Started");
 

@@ -14,6 +14,8 @@
 #define DIAL_TIM   TIM3
 #define DIAL_PORT  GPIOA
 #define DIAL_PINS  (GPIO_Pin_6|GPIO_Pin_7)
+#define DIAL_PULSES 20
+#define DIAL_INVERSE
 
 #define RE_TIM     TIM5
 #define RE_PORT    GPIOA
