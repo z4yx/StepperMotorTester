@@ -136,7 +136,6 @@ void KeyBoard_EventHandler(uint8_t key, uint8_t type)
             if(current_level > 0){
                 current_level--;
                 current_top = 0;
-                dispMenu();
             }
             break;
         case KEY_RIGHT:
@@ -153,20 +152,18 @@ void KeyBoard_EventHandler(uint8_t key, uint8_t type)
                 cursor_stack[current_level] = 0;
                 menu_stack[current_level] = item->param.next;
                 current_top = 0;
-                dispMenu();
             }
             break;
         case KEY_UP:
             if(cursor_stack[current_level] > 0)
                 cursor_stack[current_level]--;
-            dispMenu();
             break;
         case KEY_DOWN:
             if(cursor_stack[current_level] < menu_stack[current_level]->size - 1)
                 cursor_stack[current_level]++;
-            dispMenu();
             break;
         }
+        dispMenu();
     }
 }
 
@@ -182,11 +179,11 @@ void Dial_EventHandler(uint8_t event)
             num->val--;
         }
         LOG_DBG("Value: %d", num->val);
+        dispMenu();
     }
 
 }
 
 void Menu_Task(void)
 {
-    dispMenu();
 }
