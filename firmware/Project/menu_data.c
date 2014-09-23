@@ -14,6 +14,10 @@ static struct MenuItem driver_menu_item[] =
         .param.number = &MotorVelocity
     },
     {
+        .str = "",
+        .type= ItemEmpty,
+    },
+    {
         .str = STR_START,
         .type= ItemClickable,
         .param.clicked = Motor_ItemStartStop
@@ -24,14 +28,9 @@ static struct Menu driver_menu = {.size = ITEM_ARRAY_SIZE(driver_menu_item), .it
 static struct MenuItem measure_menu_item[] =
 {
     {
-        .str = STR_SET_VELOCITY,
-        .type= ItemSelectNumber,
+        .str = STR_SHOW_VELOCITY,
+        .type= ItemShowNumber,
         .param.number = &MotorVelocity
-    },
-    {
-        .str = STR_START,
-        .type= ItemClickable,
-        .param.clicked = Motor_ItemStartStop
     },
 };
 static struct Menu measure_menu = {.size = ITEM_ARRAY_SIZE(measure_menu_item), .items = measure_menu_item};

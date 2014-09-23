@@ -23,7 +23,7 @@ static void calc_menu_top(void)
 static void format_item_str(char* buf, struct MenuItem* item, bool isActive)
 {
     buf[0] = isActive ? '>' : ' ';
-    if(item->type == ItemSelectNumber){
+    if(item->type == ItemSelectNumber || item->type == ItemShowNumber){
         snprintf(buf+1, DISPLAY_CHARS, item->str, item->param.number->val);
     }
     else if(item->type == ItemSubEntry){
@@ -74,8 +74,9 @@ void Menu_Init(void)
 void KeyBoard_EventHandler(uint8_t key, uint8_t type)
 {
     struct MenuItem *item;
+    item = get_current_active();
+    int t;
     if(type == KEYEVENT_UP){
-        item = get_current_active();
         switch(key) {
         case KEY_LEFT:
             if(current_level > 0){
@@ -100,12 +101,22 @@ void KeyBoard_EventHandler(uint8_t key, uint8_t type)
             }
             break;
         case KEY_UP:
-            if(cursor_stack[current_level] > 0)
-                cursor_stack[current_level]--;
+            t = cursor_stack[current_level];
+            while(--t >= 0){
+                if(menu_stack[current_level]->items[t].type != ItemEmpty){
+                    cursor_stack[current_level] = t;
+                    break;
+                }
+            }
             break;
         case KEY_DOWN:
-            if(cursor_stack[current_level] < menu_stack[current_level]->size - 1)
-                cursor_stack[current_level]++;
+            t = cursor_stack[current_level];
+            while(++t < menu_stack[current_level]->size){
+                if(menu_stack[current_level]->items[t].type != ItemEmpty){
+                    cursor_stack[current_level] = t;
+                    break;
+                }
+            }
             break;
         case KEY_CENTER:
             if(item->type == ItemClickable){

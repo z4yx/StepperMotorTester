@@ -11,7 +11,9 @@ enum MenuItemType
     ItemSubEntry,
     ItemClickable,
     ItemSelectNumber,
-    ItemSelectString
+    ItemSelectString,
+    ItemShowNumber,
+    ItemEmpty,
 };
 
 struct ItemNumberModel

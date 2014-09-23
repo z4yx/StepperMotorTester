@@ -7,6 +7,7 @@
 #define STR_FIXED_FREQ    " 固定频率"
 
 #define STR_SET_VELOCITY  " 转速[%d]r/min"
+#define STR_SHOW_VELOCITY " 转速 %dr/min"
 
 #define STR_START         "    [开始]"
 #define STR_STOP          "    [停止]"
