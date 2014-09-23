@@ -1,0 +1,6 @@
+History/
+*.o
+*.d
+*.elf
+main.bin
+main.map
