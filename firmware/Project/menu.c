@@ -10,6 +10,7 @@ extern struct Menu main_menu;
 static struct Menu* menu_stack[MAX_MENU_DEPTH];
 static int cursor_stack[MAX_MENU_DEPTH];
 static int current_level, current_top;
+static volatile bool needUpdate;
 
 static void calc_menu_top(void)
 {
@@ -143,6 +144,15 @@ void Dial_EventHandler(uint8_t event)
 
 }
 
+void Menu_NeedUpdate()
+{
+    needUpdate = true;
+}
+
 void Menu_Task(void)
 {
+    if(needUpdate){
+        dispMenu();
+        needUpdate = false;
+    }
 }

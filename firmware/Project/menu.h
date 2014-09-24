@@ -42,4 +42,7 @@ struct Menu
     struct MenuItem* items;
 };
 
+void Menu_Init(void);
+void Menu_NeedUpdate(void);
+
 #endif

@@ -43,3 +43,14 @@ uint16_t RotaryEnc_GetCounter(TIM_TypeDef *TIMx)
 {
     TIM_GetCounter(TIMx);
 }
+
+void RotaryEnc_TIM_SetInterrupt(TIM_TypeDef *TIMx, uint8_t Irq)
+{
+    NVIC_InitTypeDef NVIC_InitStructure;
+    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
+    NVIC_InitStructure.NVIC_IRQChannelSubPriority = 1;   // 指定响应优先级别
+    NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+    NVIC_InitStructure.NVIC_IRQChannel = Irq; //指定中断源
+    NVIC_Init(&NVIC_InitStructure);
+    TIM_ITConfig(TIMx, TIM_IT_Update, ENABLE);
+}

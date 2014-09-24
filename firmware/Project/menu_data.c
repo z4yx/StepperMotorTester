@@ -30,7 +30,7 @@ static struct MenuItem measure_menu_item[] =
     {
         .str = STR_SHOW_VELOCITY,
         .type= ItemShowNumber,
-        .param.number = &MotorVelocity
+        .param.number = &MeasureVelocity
     },
 };
 static struct Menu measure_menu = {.size = ITEM_ARRAY_SIZE(measure_menu_item), .items = measure_menu_item};

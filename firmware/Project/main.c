@@ -69,6 +69,7 @@ int main(void)
     Menu_Init();
     KeyBoard_Init();
     Dial_Init();
+    Measure_Init();
 
     LOG_INFO("System Started");
 

@@ -4,6 +4,6 @@
 #include "menu.h"
 
 extern struct ItemNumberModel MotorVelocity;
-
+extern struct ItemNumberModel MeasureVelocity;
 
 #endif
