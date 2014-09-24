@@ -28,7 +28,7 @@ static void format_item_str(char* buf, struct MenuItem* item, bool isActive)
     }
     else if(item->type == ItemSubEntry){
         LOG_DBG("title: %d %d %d %d", item->str[0], item->str[1], item->str[2], item->str[3]);
-        snprintf(buf+1, DISPLAY_CHARS, "%-14s%c", item->str, item->type == ItemSubEntry ? '>' : ' ');
+        snprintf(buf+1, DISPLAY_CHARS, "%-*s%c", DISPLAY_CHARS-2, item->str, item->type == ItemSubEntry ? '>' : ' ');
         if(buf[DISPLAY_CHARS-2] & 0x80){
             //avoid half Chinese character
             buf[DISPLAY_CHARS-2] = ' ';
