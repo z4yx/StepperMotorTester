@@ -25,9 +25,9 @@ void Dial_Task(void)
 {
 	uint16_t cnt = RotaryEnc_GetCounter(DIAL_TIM) >> 1;
 	if(last_value != cnt){
-		if(last_value == 0 && cnt == 19)
+		if(last_value == 0 && cnt == DIAL_PULSES-1)
 			VAL_DEC();
-		else if(last_value == 19 && cnt == 0)
+		else if(last_value == DIAL_PULSES-1 && cnt == 0)
 			VAL_INC();
 		else if(last_value < cnt)
 			VAL_INC();
