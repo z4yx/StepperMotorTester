@@ -27,7 +27,6 @@ static void format_item_str(char* buf, struct MenuItem* item, bool isActive)
         snprintf(buf+1, DISPLAY_CHARS, item->str, item->param.number->val);
     }
     else if(item->type == ItemSubEntry){
-        LOG_DBG("title: %d %d %d %d", item->str[0], item->str[1], item->str[2], item->str[3]);
         snprintf(buf+1, DISPLAY_CHARS, "%-*s%c", DISPLAY_CHARS-2, item->str, item->type == ItemSubEntry ? '>' : ' ');
         if(buf[DISPLAY_CHARS-2] & 0x80){
             //avoid half Chinese character
@@ -139,7 +138,6 @@ void Dial_EventHandler(uint8_t event)
         if(event == DIAL_EVENT_DOWN && num->val > num->min){
             num->val--;
         }
-        LOG_DBG("Value: %d", num->val);
         dispMenu();
     }
 

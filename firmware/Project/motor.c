@@ -55,7 +55,6 @@ static void Motor_TIM_Config(uint32_t freq, TIM_TypeDef *tim)
     TIM_Cmd(tim, DISABLE);
 
     Timer_16bit_Calc(freq, &period, &prescaler);
-    LOG_DBG("period: %d, prescaler: %d", period, prescaler);
     TIM_TimeBaseStructInit(&TIM_TimeBaseStructure);
     /* Time base configuration */
     TIM_TimeBaseStructure.TIM_Period = period;

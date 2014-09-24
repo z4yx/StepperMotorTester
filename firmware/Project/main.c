@@ -72,16 +72,6 @@ int main(void)
 
     LOG_INFO("System Started");
 
-    // Display_WriteLine(1,"Hello, World");
-    // //                        GBK encoding string
-    // Display_WriteLine(2,"\xc4\xe3\xba\xc3\xa3\xac\xca\xc0\xbd\xe7");
-    // for(char i=0;i<8;i++){
-    //  uint32_t c = 0xa2d9+i;
-    //  char buf[3] = {c>>8,c&0xff,0};
-       //  LCD12864_Write_String(4,i,buf);
-    // }
-
-
     Task_Run();
 }
 
