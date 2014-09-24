@@ -141,6 +141,11 @@ void SysTick_Handler(void)
   IncSysTickCounter();
 }
 
+void TIM2_IRQHandler(void)
+{
+    Motor_Interrupt(TIM2);
+}
+
 /******************************************************************************/
 /*                 STM32F10x Peripherals Interrupt Handlers                   */
 /*  Add here the Interrupt Handler for the used peripheral(s) (PPP), for the  */

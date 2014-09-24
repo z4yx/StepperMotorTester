@@ -25,6 +25,7 @@
 #include "12864.h"
 #include "display.h"
 #include "dial.h"
+#include "motor.h"
 #include "hardware_conf.h"
 #include "keyboard.h"
 
@@ -58,8 +59,11 @@ int main(void)
              system_stm32f10x.c file
     */
 
+    NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
+    SystemCoreClockUpdate();
     USART1_Config();
     SysTick_Init();
+    Motor_Init();
     Lcd_Init();
     Display_Init();
     Menu_Init();
