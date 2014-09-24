@@ -77,7 +77,7 @@ static void Motor_TIM_SetInterrupt(void)
     NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
     NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;   // 指定响应优先级别
     NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
-    NVIC_InitStructure.NVIC_IRQChannel = TIM2_IRQn; //指定中断源
+    NVIC_InitStructure.NVIC_IRQChannel = TIM4_IRQn; //指定中断源
     NVIC_Init(&NVIC_InitStructure);
     TIM_ITConfig(Motor_TIM, TIM_IT_Update, ENABLE);
 }
@@ -146,9 +146,14 @@ void Motor_Start(int steps, uint32_t freq)
     Motor_TIM_Config((freq << 1), Motor_TIM);
 }
 
-static int calc_freq(int velocity)
+static void calc_freq(int velocity, int *freq, int *ms)
 {
-    return 900;
+    // if(velocity < 10)
+    //     *ms = 1;
+    // else
+        *ms = 8;
+    *freq = velocity * *ms * Motor_PULSES;
+    *freq /= 60; //convert to r/sec
 }
 
 void Motor_ItemStartStop(struct MenuItem *item)
@@ -157,9 +162,12 @@ void Motor_ItemStartStop(struct MenuItem *item)
         Motor_Stop();
         item->str = STR_START;
     } else {
-        Motor_SetMicrostepping(8);
+        int ms, freq;
         Motor_SetDirection(0);
-        Motor_Start(-1, calc_freq(MotorVelocity.val));
+        calc_freq(MotorVelocity.val, &freq, &ms);
+        LOG_DBG("f: %dHz, micro: %d", freq, ms);
+        Motor_SetMicrostepping(ms);
+        Motor_Start(-1, freq);
         item->str = STR_STOP;
     }
 }

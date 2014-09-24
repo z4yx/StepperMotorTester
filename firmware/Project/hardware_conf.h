@@ -17,11 +17,12 @@
 #define DIAL_PULSES 20
 #define DIAL_INVERSE
 
-#define RE_TIM     TIM5
+#define RE_TIM     TIM2
 #define RE_PORT    GPIOA
 #define RE_PINS    (GPIO_Pin_0|GPIO_Pin_1)
+#define RE_PULSES  400
 
-#define Motor_TIM  TIM2
+#define Motor_TIM  TIM4
 #define Motor_Port GPIOB
 #define Motor_EN   GPIO_Pin_13
 #define Motor_MS1  GPIO_Pin_12
@@ -29,6 +30,8 @@
 #define Motor_MS3  GPIO_Pin_10
 #define Motor_DIR  GPIO_Pin_0
 #define Motor_STEP GPIO_Pin_1
+
+#define Motor_PULSES 200
 
 #define Btn_Left_Pin GPIO_Pin_9
 #define Btn_Left_Port GPIOB

@@ -141,9 +141,14 @@ void SysTick_Handler(void)
   IncSysTickCounter();
 }
 
+void TIM4_IRQHandler(void)
+{
+    Motor_Interrupt(TIM4);
+}
+
 void TIM2_IRQHandler(void)
 {
-    Motor_Interrupt(TIM2);
+    Measure_Interrupt();
 }
 
 /******************************************************************************/
