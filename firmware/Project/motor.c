@@ -32,6 +32,7 @@ void Motor_SetMicrostepping(uint8_t microstep)
     int bin = __builtin_ctz(microstep);
     if (microstep == 16)
         bin |= 3; //refer to A4988 datasheet
+    LOG_DBG("Microstep %d, MS: %d", microstep, bin);
     GPIO_WriteBit(Motor_Port, Motor_MS1, (bin & 1) ? Bit_SET : Bit_RESET);
     GPIO_WriteBit(Motor_Port, Motor_MS2, (bin & 2) ? Bit_SET : Bit_RESET);
     GPIO_WriteBit(Motor_Port, Motor_MS3, (bin & 4) ? Bit_SET : Bit_RESET);
@@ -87,7 +88,7 @@ void Motor_Init(void)
     GPIO_InitTypeDef GPIO_InitStructure;
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
     GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-    GPIO_InitStructure.GPIO_Pin = Motor_EN|Motor_MS1|Motor_MS2|Motor_DIR|Motor_STEP;
+    GPIO_InitStructure.GPIO_Pin = Motor_EN|Motor_MS1|Motor_MS2|Motor_MS3|Motor_DIR|Motor_STEP;
 
     RCC_TIMClockCmd(Motor_TIM, ENABLE);
     RCC_GPIOClockCmd(Motor_Port, ENABLE);
@@ -148,10 +149,12 @@ void Motor_Start(int steps, uint32_t freq)
 
 static void calc_freq(int velocity, int *freq, int *ms)
 {
-    // if(velocity < 10)
-    //     *ms = 1;
-    // else
+    if(velocity <= 25)
+        *ms = 16;
+    else if(velocity <= 60)
         *ms = 8;
+    else if(velocity <= 200)
+        *ms = 4;
     *freq = velocity * *ms * Motor_PULSES;
     *freq /= 60; //convert to r/sec
 }
