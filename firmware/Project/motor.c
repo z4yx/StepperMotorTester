@@ -165,7 +165,7 @@ static bool do_start_stop(struct MenuItem *item, int freq, int ms, int steps)
         Motor_Stop();
         item->str = STR_START;
     } else {
-        Motor_SetDirection(0);
+        Motor_SetDirection(1);
         LOG_DBG("f: %dHz, micro: %d", freq, ms);
         Motor_SetMicrostepping(ms);
         Motor_Start(steps, freq);
