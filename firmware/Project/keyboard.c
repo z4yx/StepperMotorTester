@@ -50,6 +50,10 @@ void KeyBoard_Init(void)
     GPIO_InitStructure.GPIO_Pin = Btn_Center_Pin;
     GPIO_Init(Btn_Center_Port, &GPIO_InitStructure);
 
+    RCC_GPIOClockCmd(Btn_Dial_Port, ENABLE);
+    GPIO_InitStructure.GPIO_Pin = Btn_Dial_Pin;
+    GPIO_Init(Btn_Dial_Port, &GPIO_InitStructure);
+
     for (int i = 0; i < NUM_KEYS; ++i)
     {
         bPressed[i] = KeyBoard_isPressed(i);
@@ -75,6 +79,7 @@ bool KeyBoard_isPressed(uint8_t num)
             break;
         case KEY_CENTER:
             pressed = !GPIO_ReadInputDataBit(Btn_Center_Port, Btn_Center_Pin);
+            pressed |= !GPIO_ReadInputDataBit(Btn_Dial_Port, Btn_Dial_Pin);
             break;
         default:
             LOG_ERR("Invalid key number %d", (int)num);

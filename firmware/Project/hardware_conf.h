@@ -17,6 +17,9 @@
 #define DIAL_PULSES 20
 #define DIAL_INVERSE
 
+#define Btn_Dial_Pin GPIO_Pin_5
+#define Btn_Dial_Port GPIOA
+
 #define RE_TIM     TIM2
 #define RE_PORT    GPIOA
 #define RE_PINS    (GPIO_Pin_0|GPIO_Pin_1)
@@ -41,8 +44,8 @@
 #define Btn_Right_Port GPIOC
 #define Btn_Up_Pin GPIO_Pin_15
 #define Btn_Up_Port GPIOC
-#define Btn_Center_Pin GPIO_Pin_5
-#define Btn_Center_Port GPIOA
+#define Btn_Center_Pin GPIO_Pin_8
+#define Btn_Center_Port GPIOB
 
 //键盘最小触发间隔时间(ms)
 #define KEYBOARD_MIN_TOGGLE_PERIOD 50
