@@ -52,7 +52,7 @@ void Measure_Interrupt(void)
 	int delta = now - last_time;
 	// LOG_DBG("Measure_Interrupt, delta: %d",delta);
 	if(delta > 0){
-		int velocity = 1000*60/delta;
+		int velocity = (1000*60+delta-1)/delta;
 		MeasureVelocity.val = velocity;
 		Menu_NeedUpdate();
 	}
