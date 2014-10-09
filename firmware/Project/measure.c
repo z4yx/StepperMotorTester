@@ -33,7 +33,7 @@ void Measure_Task(void)
 {
 	int cur = get_total_pulses() - last_clear_value;
 	cur %= RE_PULSES*2;
-	cur = cur*360/(RE_PULSES*2);
+	cur = (cur*360 + RE_PULSES*2-1)/(RE_PULSES*2);
 	if(cur != MeasureAngle.val){
 		MeasureAngle.val = cur;
 		Menu_NeedUpdate();
