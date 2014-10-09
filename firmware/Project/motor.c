@@ -189,7 +189,8 @@ void Motor_ItemStartStopFreq(struct MenuItem* item)
 void Motor_ItemRun(struct MenuItem *item)
 {
     int ms = atoi(MotorMicroStep.name[MotorMicroStep.selected]);
-    do_start_stop(item, 2000, ms, MotorSteps.val);
+    do_start_stop(item, 1000, ms, MotorSteps.val);
+    item->str = STR_RUN;
 }
 
 void Motor_Eneded()

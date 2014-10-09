@@ -68,7 +68,7 @@ static struct MenuItem fixed_step_menu_item[] =
         .type= ItemEmpty,
     },
     {
-        .str = STR_START,
+        .str = STR_RUN,
         .type= ItemClickable,
         .param.clicked = Motor_ItemRun
     },
