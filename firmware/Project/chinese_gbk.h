@@ -13,7 +13,7 @@
 #define STR_SET_MS        " 细分[1/%s]"
 #define STR_SET_STEPS     " 步数[%d]"
 #define STR_SHOW_VELOCITY " 转速 %dr/min"
-#define STR_SHOW_ANGLE    " 角度 %d°"
+#define STR_SHOW_ANGLE    " 角度 %3d°"
 
 #define STR_START         "    [开始]"
 #define STR_STOP          "    [停止]"
