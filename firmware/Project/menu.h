@@ -21,6 +21,12 @@ struct ItemNumberModel
     int min, max, val;
 };
 
+struct ItemStringModel
+{
+    int size, selected;
+    const char* name[8];
+};
+
 struct MenuItem;
 
 typedef void (*ItemClickEventHandler_t)(struct MenuItem*);
@@ -32,6 +38,7 @@ struct MenuItem
     union{
         struct Menu* next;
         struct ItemNumberModel* number;
+        struct ItemStringModel* strings;
         ItemClickEventHandler_t clicked;
     }param;
 };

@@ -27,6 +27,13 @@ static void format_item_str(char* buf, struct MenuItem* item, bool isActive)
     if(item->type == ItemSelectNumber || item->type == ItemShowNumber){
         snprintf(buf+1, DISPLAY_CHARS, item->str, item->param.number->val);
     }
+    else if(item->type == ItemSelectString){
+        const char *s = "";
+        struct ItemStringModel *model = item->param.strings;
+        if(0<=model->selected && model->selected<model->size)
+            s = model->name[model->selected];
+        snprintf(buf+1, DISPLAY_CHARS, item->str, s);
+    }
     else if(item->type == ItemSubEntry){
         snprintf(buf+1, DISPLAY_CHARS, "%-*s%c", DISPLAY_CHARS-2, item->str, item->type == ItemSubEntry ? '>' : ' ');
         if(buf[DISPLAY_CHARS-2] & 0x80){
@@ -138,6 +145,20 @@ void Dial_EventHandler(uint8_t event)
         }
         if(event == DIAL_EVENT_DOWN && num->val > num->min){
             num->val--;
+        }
+        dispMenu();
+    }else if(item->type == ItemSelectString){
+        struct ItemStringModel *model = item->param.strings;
+        if(event == DIAL_EVENT_UP){
+            if(++model->selected >= model->size)
+                model->selected = 0;
+        }else if(event == DIAL_EVENT_DOWN){
+            if(model->selected <= 0){
+                if(model->size > 0)
+                    model->selected = model->size-1;
+            }else{
+                model->selected--;
+            }
         }
         dispMenu();
     }

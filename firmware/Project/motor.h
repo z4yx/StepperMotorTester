@@ -10,6 +10,8 @@ void Motor_Init(void);
 void Motor_Stop(void);
 void Motor_Start(int steps, uint32_t freq);
 
+void Motor_ItemStartStopFreq(struct MenuItem* item);
 void Motor_ItemStartStop(struct MenuItem* item);
+void Motor_ItemRun(struct MenuItem *item);
 
 #endif

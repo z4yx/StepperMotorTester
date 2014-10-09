@@ -115,7 +115,7 @@ void Motor_Interrupt(TIM_TypeDef *tim)
                 if (!Motor_PendingSteps) {
                     GPIO_ResetBits(Motor_Port, Motor_STEP);
                     TIM_Cmd(tim, DISABLE);
-                    // Move_Axis_Eneded(i);
+                    Motor_Eneded();
                 }
             }
         }
@@ -159,19 +159,40 @@ static void calc_freq(int velocity, int *freq, int *ms)
     *freq /= 60; //convert to r/sec
 }
 
-void Motor_ItemStartStop(struct MenuItem *item)
+static bool do_start_stop(struct MenuItem *item, int freq, int ms, int steps)
 {
     if (Motor_PendingSteps) {
         Motor_Stop();
         item->str = STR_START;
     } else {
-        int ms, freq;
         Motor_SetDirection(0);
-        calc_freq(MotorVelocity.val, &freq, &ms);
         LOG_DBG("f: %dHz, micro: %d", freq, ms);
         Motor_SetMicrostepping(ms);
-        Motor_Start(-1, freq);
+        Motor_Start(steps, freq);
         item->str = STR_STOP;
     }
 }
 
+void Motor_ItemStartStop(struct MenuItem *item)
+{
+    int ms, freq;
+    calc_freq(MotorVelocity.val, &freq, &ms);
+    do_start_stop(item, freq, ms, -1);
+}
+
+void Motor_ItemStartStopFreq(struct MenuItem* item)
+{
+    int ms = atoi(MotorMicroStep.name[MotorMicroStep.selected]);
+    do_start_stop(item, MotorFreq.val, ms, -1);
+}
+
+void Motor_ItemRun(struct MenuItem *item)
+{
+    int ms = atoi(MotorMicroStep.name[MotorMicroStep.selected]);
+    do_start_stop(item, 2000, ms, MotorSteps.val);
+}
+
+void Motor_Eneded()
+{
+    
+}
