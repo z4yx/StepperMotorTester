@@ -151,8 +151,8 @@ static void calc_freq(int velocity, int *freq, int *ms)
 {
     if(velocity <= 25)
         *ms = 16;
-    else if(velocity <= 60)
-        *ms = 8;
+    // else if(velocity <= 60)
+    //     *ms = 8;
     else if(velocity <= 200)
         *ms = 4;
     *freq = velocity * *ms * Motor_PULSES;
