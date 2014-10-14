@@ -263,6 +263,7 @@ LDFLAGS += -lc -lgcc
 LDFLAGS += $(CPLUSPLUS_LIB)
 LDFLAGS += $(patsubst %,-L%,$(EXTRA_LIBDIRS))
 LDFLAGS += $(patsubst %,-l%,$(EXTRA_LIBS))
+LDFLAGS += -specs=nosys.specs
 
 # Set Linker-Script Depending On Selected Memory and Controller
 ifeq ($(RUN_MODE),RAM_RUN)
