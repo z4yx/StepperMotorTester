@@ -27,6 +27,19 @@ static volatile int Motor_PendingSteps;
 //下一个时钟输出的电平
 static uint8_t Motor_OutputLevel;
 
+#ifndef __GNUC__
+int __builtin_ctz(unsigned x)
+{
+  // This uses a binary search algorithm from Hacker's Delight.
+  int n = 1;
+  if ((x & 0x0000FFFF) == 0) {n = n +16; x = x >>16;}
+  if ((x & 0x000000FF) == 0) {n = n + 8; x = x >> 8;}
+  if ((x & 0x0000000F) == 0) {n = n + 4; x = x >> 4;}
+  if ((x & 0x00000003) == 0) {n = n + 2; x = x >> 2;}
+  return n - (x & 1);
+}
+#endif
+
 void Motor_SetMicrostepping(uint8_t microstep)
 {
     int bin = __builtin_ctz(microstep);
